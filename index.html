@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phone Cooling System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="top-text">
+      <h1>Phone Cooling System</h1>
+      <p class="with">With a Non-Heating Charger</p>
+      <p class="sub">Cooler Phone • Safer Charging • Better Performance</p>
+    </div>
+    <div class="top-actions">
+      <button class="btn ghost sm" id="btnLang" type="button" lang="ar" aria-label="التبديل إلى العربية">العربية</button>
+      <div class="syspill" id="sysPill"><i></i><span id="sysPillT">SYSTEM: SAFE</span></div>
+    </div>
+  </header>
+
+  <section class="card controls" aria-label="Simulation controls">
+    <div class="btns">
+      <button class="btn primary big" id="btnDemo" type="button">▶ Run Full Demonstration</button>
+      <button class="btn cyan" id="btnCharge" type="button">🔌 Start Charging</button>
+      <label class="switch" title="Adds extra heat, like gaming or video"><input type="checkbox" id="chkHeavy"><span class="track"></span><span>Heavy usage</span></label>
+      <button class="btn ghost" id="btnReset" type="button">Reset</button>
+    </div>
+    <div class="demo" id="demoBox">
+      <div class="demo-top">
+        <div class="demo-title"><small id="demoNo">DEMO</small><span id="demoTitle">Ready to run</span></div>
+        <span class="label" id="demoClock">about 17 seconds</span>
+      </div>
+      <div class="bar" aria-hidden="true"><i id="demoBar"></i></div>
+      <div class="dots" id="demoDots" aria-hidden="true"></div>
+      <p class="demo-text" id="demoText">Press Run Full Demonstration to watch the whole cycle, or use Start Charging to run it yourself.</p>
+    </div>
+  </section>
+
+  <section class="card stage-card" aria-label="System visualization">
+    <div class="banner b-safe" id="banner" role="status" aria-live="polite"><span class="bt" id="bannerT">🟢 SYSTEM SAFE</span><span class="bs" id="bannerS">Idle. Press Start Charging.</span></div>
+    <div class="stage" id="stage" data-sink="idle">
+      <div class="col sink-col">
+        <svg class="sink" viewBox="0 0 150 200" role="img" aria-label="Heat sink with metal fins">
+          <rect class="base" x="116" y="8" width="26" height="184" rx="7"/>
+          <g id="fins"></g>
+        </svg>
+        <div class="cap"><div class="cap-t">Heat Sink</div><div class="cap-v t-mute" id="sinkState">STANDBY</div><div class="cap-s" id="sinkNote">Idle</div></div>
+      </div>
+
+      <div class="lane heat-lane" aria-hidden="true">
+        <svg viewBox="0 0 64 200" preserveAspectRatio="xMidYMid meet">
+          <path class="w w1" d="M22 10 q9 8 0 16 t0 16 t0 16 t0 16 t0 16 t0 16 t0 16 t0 16 t0 16 t0 16 t0 16"/>
+          <path class="w w2" d="M32 10 q9 8 0 16 t0 16 t0 16 t0 16 t0 16 t0 16 t0 16 t0 16 t0 16 t0 16 t0 16"/>
+          <path class="w w3" d="M42 10 q9 8 0 16 t0 16 t0 16 t0 16 t0 16 t0 16 t0 16 t0 16 t0 16 t0 16 t0 16"/>
+        </svg>
+      </div>
+
+      <div class="col phone-col" id="phoneCol">
+        <div class="phone" id="phone" role="img" aria-label="Smartphone showing battery, temperature and charging status">
+          <div class="screen">
+            <div class="scr-top"><span id="scrTime">9:41</span>
+              <svg class="scr-bolt" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 2 5 13.5h5.5L9.5 22 19 9.5h-5.8z"/></svg></div>
+            <div>
+              <div class="scr-label">Battery</div>
+              <div class="scr-big num"><span id="scrBat">65</span><small>%</small></div>
+              <div class="scr-bar"><i id="scrBatFill"></i></div>
+            </div>
+            <div class="scr-temp">
+              <div>
+                <div class="scr-label">Temperature</div>
+                <div class="scr-mid num" id="scrTemp">32°C</div>
+                <div class="scr-lvl" id="scrLvl">SAFE</div>
+              </div>
+              <div class="thermo" aria-hidden="true"><i id="thermoFill"></i></div>
+            </div>
+            <div>
+              <div class="scr-label">Charging</div>
+              <div class="scr-chg" id="scrChg">Not charging</div>
+            </div>
+            <div class="scr-banner" id="scrBanner">SYSTEM SAFE</div>
+          </div>
+        </div>
+        <svg class="cable" viewBox="0 0 40 56" aria-hidden="true">
+          <rect class="plug" x="14" y="0" width="12" height="9" rx="3"/>
+          <path class="c" d="M20 8 V54"/>
+          <path class="flow" d="M20 54 V8"/>
+        </svg>
+        <div class="brick" aria-label="Non-heating charger"><span class="led" id="chargerLed"></span><b>NON-HEATING<br>CHARGER</b></div>
+      </div>
+
+      <div class="lane air-lane" aria-hidden="true">
+        <svg viewBox="0 0 64 200" preserveAspectRatio="xMidYMid meet">
+          <path class="a" d="M14 40 h34"/><path class="a" d="M8 70 h42"/><path class="a" d="M16 100 h34"/>
+          <path class="a" d="M8 130 h42"/><path class="a" d="M14 160 h34"/><path class="a" d="M18 85 h26"/>
+        </svg>
+      </div>
+
+      <div class="col fan-col">
+        <svg class="fan" viewBox="0 0 120 120" role="img" aria-label="Cooling fan">
+          <rect class="housing" x="6" y="6" width="108" height="108" rx="18"/>
+          <circle class="screw" cx="18" cy="18" r="3.5"/><circle class="screw" cx="102" cy="18" r="3.5"/>
+          <circle class="screw" cx="18" cy="102" r="3.5"/><circle class="screw" cx="102" cy="102" r="3.5"/>
+          <circle class="ring" cx="60" cy="60" r="44"/>
+          <circle class="blur" id="fanBlur" cx="60" cy="60" r="42"/>
+          <g id="fanBlades">
+            <path class="blade" d="M60 60 C50 38 58 14 76 18 C84 36 76 54 60 60Z"/>
+            <path class="blade" transform="rotate(72 60 60)" d="M60 60 C50 38 58 14 76 18 C84 36 76 54 60 60Z"/>
+            <path class="blade" transform="rotate(144 60 60)" d="M60 60 C50 38 58 14 76 18 C84 36 76 54 60 60Z"/>
+            <path class="blade" transform="rotate(216 60 60)" d="M60 60 C50 38 58 14 76 18 C84 36 76 54 60 60Z"/>
+            <path class="blade" transform="rotate(288 60 60)" d="M60 60 C50 38 58 14 76 18 C84 36 76 54 60 60Z"/>
+          </g>
+          <circle class="hub" cx="60" cy="60" r="9"/>
+        </svg>
+        <div class="cap"><div class="cap-t" id="fanState">Fan: OFF</div><div class="cap-v t-cool num" id="fanSpeed">Fan Speed: 0%</div><div class="cap-s">Blows air across the phone</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="row-top">
+    <section class="card" aria-label="Phone temperature">
+      <div class="card-head"><h2>Phone Temperature</h2><span class="pill" id="levelPill">SAFE</span></div>
+      <div class="temp-main">
+        <div class="temp-num" id="tempNum">32<small>°C</small></div>
+        <div class="temp-meta">
+          <div>Temperature Sensor: <b id="sensorInline">ACTIVE</b></div>
+          <p class="fine">Levels are prototype simulation thresholds, not real battery or medical safety limits.</p>
+        </div>
+      </div>
+      <div class="scale">
+        <div class="scale-wrap">
+          <div class="scale-bar"><i></i><i></i><i></i><i></i></div>
+          <div class="marker" id="marker"></div>
+        </div>
+        <div class="scale-lab">
+          <span><b>SAFE</b>below 35°C</span><span><b>NORMAL</b>35–40°C</span><span><b>HIGH</b>40–45°C</span><span><b>CRITICAL</b>above 45°C</span>
+        </div>
+      </div>
+      <div class="spark">
+        <div class="spark-head"><span class="label">Sensor readings</span><span class="label">last 60 s</span></div>
+        <div class="spark-box">
+          <svg viewBox="0 0 300 90" preserveAspectRatio="none" aria-hidden="true">
+            <line x1="0" x2="300" y1="36" y2="36" stroke="#f08400" stroke-width="1.5" stroke-dasharray="5 4" vector-effect="non-scaling-stroke"/>
+            <line x1="0" x2="300" y1="58.5" y2="58.5" stroke="#2b78d6" stroke-width="1.2" stroke-dasharray="3 4" vector-effect="non-scaling-stroke" opacity=".6"/>
+            <polygon id="sparkArea" points="" fill="#0aa5c9" fill-opacity=".14"/>
+            <polyline id="sparkLine" points="" fill="none" stroke="#0a2a5e" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+          </svg>
+          <span class="spark-l hi" style="top:40%">40°C cooling starts</span>
+          <span class="spark-l" style="top:65%">35°C</span>
+          <span class="spark-dot" id="sparkDot" style="left:100%;top:50%"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Battery">
+      <div class="card-head"><h2>Battery</h2><span class="pill" id="battPill" style="--level:var(--steel);--level-soft:var(--surface-2);--level-ink:var(--muted)">IDLE</span></div>
+      <div class="batt"><div class="batt-body"><div class="batt-fill" id="battFill"></div></div><div class="batt-nub"></div></div>
+      <div class="batt-big num"><small>Battery:</small><span id="battText">65%</span></div>
+      <div class="rows" style="margin-top:12px">
+        <div class="kv"><span>Charging</span><b id="battStatus">Not charging</b></div>
+        <div class="kv"><span>Battery Temperature</span><b id="battTemp" class="num">32°C</b></div>
+        <div class="kv"><span>Follows</span><b>phone temperature</b></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="row-3">
+    <section class="card" aria-label="Temperature sensor">
+      <div class="card-head"><h2>Temperature Sensor</h2><span class="label"><span class="sample" id="senDot"></span>sampling</span></div>
+      <div class="rows">
+        <div class="kv"><span>Status</span><b id="senStatus" class="t-ok">ACTIVE</b></div>
+        <div class="kv"><span>Current Reading</span><b id="senReading" class="num">32°C</b></div>
+        <div class="kv"><span>Reading Interval</span><b>1 second</b></div>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Microcontroller">
+      <div class="card-head"><h2>Microcontroller</h2></div>
+      <div class="chip" id="chip" data-on="1">
+        <svg viewBox="0 0 58 58" aria-hidden="true">
+          <g stroke="#5d7396" stroke-width="3" stroke-linecap="round">
+            <path d="M16 3v8M29 3v8M42 3v8M16 47v8M29 47v8M42 47v8M3 16h8M3 29h8M3 42h8M47 16h8M47 29h8M47 42h8"/>
+          </g>
+          <rect x="11" y="11" width="36" height="36" rx="6" fill="#0a2a5e"/>
+          <circle class="led l1" cx="21" cy="22" r="3.2"/><circle class="led l2" cx="37" cy="22" r="3.2"/>
+          <circle class="led l3" cx="21" cy="36" r="3.2"/><circle class="led l4" cx="37" cy="36" r="3.2"/>
+        </svg>
+        <div><div class="label">Status</div><div class="mcu-status" id="mcuStatus">MONITORING</div></div>
+      </div>
+      <ul class="mcu-list" id="mcuList">
+        <li data-m="MONITORING" class="on">MONITORING</li>
+        <li data-m="COOLING COMMAND SENT">COOLING COMMAND SENT</li>
+        <li data-m="FAN ACTIVATED">FAN ACTIVATED</li>
+        <li data-m="CONTROLLING">CONTROLLING</li>
+      </ul>
+      <div class="rule">IF reading ≥ 40°C → fan 100%<br>IF reading &lt; 35°C → fan 40%</div>
+    </section>
+
+    <section class="card" aria-label="Non-heating charger">
+      <div class="card-head"><h2>Non-Heating Charger</h2></div>
+      <div class="rows">
+        <div class="kv"><span>Status</span><b id="chgStatus" class="t-mute"><span class="dot"></span>STANDBY</b></div>
+        <div class="kv"><span>Power</span><b id="chgPower">No load</b></div>
+        <div class="kv"><span>Temperature</span><b id="chgTemp">Ambient</b></div>
+      </div>
+      <div class="cmp-bars" aria-label="Illustrative charger heat comparison">
+        <div><span>Traditional charger (illustrative)</span><span class="b"><i style="width:82%;background:var(--high)"></i></span></div>
+        <div><span>This prototype's charger (illustrative)</span><span class="b"><i style="width:18%;background:var(--cyan)"></i></span></div>
+      </div>
+      <p class="fine" style="margin-top:12px">Designed to minimize charging-related heat in this prototype.</p>
+    </section>
+  </div>
+
+  <section class="card" aria-label="Full system diagram">
+    <div class="card-head"><h2>Full System Diagram</h2><span class="label">lights up as the simulation runs</span></div>
+    <div class="flow" id="flow"></div>
+  </section>
+
+  <div class="row-2">
+    <section class="card" aria-label="Live system status">
+      <div class="card-head"><h2>Live System Status</h2></div>
+      <table class="st">
+        <tbody>
+          <tr><td>Phone</td><td id="st-phone" class="t-ok"><span class="dot"></span>CONNECTED</td></tr>
+          <tr><td>Battery</td><td id="st-battery"></td></tr>
+          <tr><td>Temperature Sensor</td><td id="st-sensor"></td></tr>
+          <tr><td>Microcontroller</td><td id="st-mcu"></td></tr>
+          <tr><td>Cooling Fan</td><td id="st-fan"></td></tr>
+          <tr><td>Heat Sink</td><td id="st-sink"></td></tr>
+          <tr><td>Charger</td><td id="st-charger"></td></tr>
+          <tr><td>System</td><td id="st-system"></td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card" aria-label="Event log">
+      <div class="card-head"><h2>Event Log</h2><span class="label">newest first</span></div>
+      <ul class="log" id="log" role="log"></ul>
+    </section>
+  </div>
+
+  <section class="card" aria-label="Comparison">
+    <div class="card-head"><h2>Traditional Charging vs Proposed System</h2><span class="label">illustrative</span></div>
+    <div class="cmp">
+      <div class="cmp-col">
+        <h3>Traditional Charging</h3>
+        <ul><li>🔥 More heat</li><li>⚠️ Higher thermal stress</li><li>📉 Possible performance reduction</li></ul>
+        <svg viewBox="0 0 220 84" role="img" aria-label="Illustrative curve: temperature keeps rising with no cooling">
+          <line x1="8" x2="212" y1="30" y2="30" stroke="#f08400" stroke-width="1" stroke-dasharray="4 3"/>
+          <text x="10" y="26">40°C</text>
+          <path d="M8 74 C60 70 100 52 140 36 S196 14 212 8" fill="none" stroke="#d92d20" stroke-width="3" stroke-linecap="round"/>
+          <text x="10" y="82">time →</text>
+        </svg>
+      </div>
+      <div class="cmp-col good">
+        <h3>Proposed System</h3>
+        <ul><li>❄️ Active cooling</li><li>🌡️ Temperature monitoring</li><li>⚡ Controlled charging</li><li>🛡️ Better thermal management</li></ul>
+        <svg viewBox="0 0 220 84" role="img" aria-label="Illustrative curve: temperature rises, cooling starts at 40 degrees, then it levels off">
+          <line x1="8" x2="212" y1="30" y2="30" stroke="#f08400" stroke-width="1" stroke-dasharray="4 3"/>
+          <text x="10" y="26">40°C</text>
+          <path d="M8 74 C50 70 80 50 100 30 C112 44 124 56 140 58 S190 54 212 52" fill="none" stroke="#006f8a" stroke-width="3" stroke-linecap="round"/>
+          <text x="10" y="82">time →</text>
+        </svg>
+      </div>
+    </div>
+    <p class="fine" style="margin-top:12px">Curves show the idea only. They are not measurements and make no promise about battery life.</p>
+  </section>
+
+  <section aria-label="Benefits">
+    <div class="row-4">
+      <div class="card benefit"><h3>🌡️ Temperature Monitoring</h3><p>Continuously monitors the simulated phone temperature.</p></div>
+      <div class="card benefit"><h3>❄️ Active Cooling</h3><p>Automatically activates the cooling fan when temperature rises.</p></div>
+      <div class="card benefit"><h3>⚡ Smart Control</h3><p>The microcontroller controls the cooling process automatically.</p></div>
+      <div class="card benefit"><h3>🔋 Thermal Management</h3><p>Helps maintain a more stable simulated charging temperature.</p></div>
+    </div>
+  </section>
+
+  <section class="card" aria-label="How it works">
+    <div class="card-head"><h2>How It Works</h2></div>
+    <ol class="how">
+      <li><b>Charging</b><span>The phone receives power from the charger.</span></li>
+      <li><b>Temperature Monitoring</b><span>The temperature sensor continuously monitors the phone.</span></li>
+      <li><b>Heat Detection</b><span>If the simulated temperature becomes high, the microcontroller detects it.</span></li>
+      <li><b>Cooling</b><span>The cooling fan and heat sink activate.</span></li>
+      <li><b>Stabilization</b><span>The temperature decreases and the system returns to a safe simulated operating state.</span></li>
+    </ol>
+  </section>
+
+  <p class="disclaimer">This is an educational prototype. Temperature values, charging behavior, and cooling performance are simulated and do not represent certified smartphone safety limits or a production charging system.</p>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
